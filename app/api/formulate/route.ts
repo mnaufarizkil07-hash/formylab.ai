@@ -47,10 +47,8 @@ export async function POST(request: Request) {
     const finalBatchSize = batchSize && !isNaN(parseFloat(batchSize)) ? parseFloat(batchSize) : 100;
     const shouldViewCost = viewCost !== false; 
 
-    // --- MENGGUNAKAN NAMA FILE DATABASE YANG SERAGAM (supplier.csv) ---
     const formulationsPath = path.join(process.cwd(), "data", "allpurpose_cream_formulation_dataset_EN (2).csv");
     
-    // Cek supplier.csv di root atau di folder data
     let suppliersPath = path.join(process.cwd(), "supplier.csv");
     if (!fs.existsSync(suppliersPath)) {
       suppliersPath = path.join(process.cwd(), "data", "supplier.csv");
@@ -70,7 +68,6 @@ export async function POST(request: Request) {
       if (nums) targetViscNum = parseInt(nums[0], 10);
     }
 
-    // --- ALGORITMA MATCHING ---
     const sortedFormulas = rawFormulations.sort((a, b) => {
       const aPh = parseFloat(a.pH) || 5.0;
       const bPh = parseFloat(b.pH) || 5.0;
@@ -91,7 +88,6 @@ export async function POST(request: Request) {
     const match1 = sortedFormulas[0];
     const match2 = sortedFormulas[1] || sortedFormulas[0];
 
-    // --- SMART SUPPLIER ENGINE ---
     const getSupplierInfo = (colName: string) => {
       const cleanColName = colName.replace(/_%/g, "").replace(/_/g, " ").toLowerCase().trim();
       
@@ -223,7 +219,7 @@ export async function POST(request: Request) {
                  name: cleanName,
                  category: "Custom Active Compound",
                  conc: `${concNum.toFixed(2)}%`,
-                 reskLevel: "Low",
+                 riskLevel: "Low",
                  riskNote: "Tambahan kustom (AI Calculated)",
                  supplier: suppInfo.name,
                  isHalal: suppInfo.isHalal
@@ -232,7 +228,7 @@ export async function POST(request: Request) {
          });
       }
 
-      list.sort((a, b) => parseFloat(b.conc) - parseFloat(a.conc));
+      list.sort((a, b) => parseFloat(b.conc) - parseFloat(b.conc));
       return { list, cost: Math.round(totalCost), removedCount: removedAllergens };
     };
 
