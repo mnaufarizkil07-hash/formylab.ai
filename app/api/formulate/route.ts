@@ -206,7 +206,7 @@ export async function POST(request: Request) {
                if (concNum === null) {
                   if (lowerName.includes("acid")) concNum = 1.5;
                   else if (lowerName.includes("extract") || lowerName.includes("centella") || lowerName.includes("aloe")) concNum = 2.0;
-                  else if (lowerName.includes("vitamin") || lowerName.includes("niacinamide")) concNum, concNum = 4.0;
+                  else if (lowerName.includes("vitamin") || lowerName.includes("niacinamide")) concNum = 4.0;
                   else if (lowerName.includes("oil") || lowerName.includes("butter") || lowerName.includes("wax") || lowerName.includes("paraffin")) concNum = 3.5;
                   else if (lowerName.includes("peptid") || lowerName.includes("ceramide")) concNum = 1.0;
                   else {
